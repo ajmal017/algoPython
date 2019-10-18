@@ -1,7 +1,7 @@
 # This function returns the Expontential moving average of last price
 def EMA(period, currentPrice, pair, con):
     # Prepare mysql connection
-    mycursor = con.curosr()
+    mycursor = con.cursor()
     # First create weighted multipler
     WeightedMultiplier = 2 / (period + 1)
 
@@ -28,7 +28,7 @@ def EMA(period, currentPrice, pair, con):
 # This functions return the exponential moving average of the MACD
 def EMA_MACD(period, currentPrice, pair, con):
     # Prepare mysql connection
-    mycursor = con.curosr()
+    mycursor = con.cursor()
 
     # First create weighted multipler
     WeightedMultiplier = 2 / (period + 1)
