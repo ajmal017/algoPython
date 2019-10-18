@@ -1,82 +1,53 @@
+# This function returns the Expontential moving average of last price
 def EMA(period, currentPrice, pair, con):
+    # Prepare mysql connection
+    mycursor = con.curosr()
     # First create weighted multipler
     WeightedMultiplier = 2 / (period + 1)
 
     # Get last EMA price from database
+    sqlLastData = """Select EMA_""" + str(period) + """
+      as EMAResult from algo_forex where pair='""" + pair + """'
+      order by dateTime desc limit 1;"""
+
+    # Return result as tuple, need to get first value as query returns 1 only
+    mycursor.execute(sqlLastData)
+    results = mycursor.fetchone()
+    lastEMA = results[0]
+
+    # Calculate EMA
+    EMA = currentPrice * WeightedMultiplier + \
+        lastEMA * (1 - WeightedMultiplier)
+
+    # Return results
+    preFix = "EMA_" + str(period)
+    EMAReturn = {preFix: EMA}
+    return(EMAReturn)
 
 
-# function EMA(period, currentPrice, pair, con) {
-#   return new Promise((resolve, reject) => {
-#     //First get Weighted multiplier
-#     let WeightedMultiplier = 2 / (period + 1);
+# This functions return the exponential moving average of the MACD
+def EMA_MACD(period, currentPrice, pair, con):
+    # Prepare mysql connection
+    mycursor = con.curosr()
 
-#     //Get last EMA price from DB
-#     var sqlLastData =
-#       "Select EMA_" +
-#       period +
-#       " as EMAResult from algo_forex where pair='" +
-#       pair +
-#       "' order by dateTime desc limit 1;";
+    # First create weighted multipler
+    WeightedMultiplier = 2 / (period + 1)
 
-#     //console.log("sqlLastData", sqlLastData);
-#     //First retrieve last 26 data points from table
-#     con.query(sqlLastData, function(err, sqlData) {
-#       if (err) {
-#         console.log("SQL ERROR RETRIEVING LAST PRICES", err);
-#         reject(err);
-#       }
-#       if (sqlData) {
-#         //Calc EMA first
-#         let lastEMA = JSON.parse(JSON.stringify(sqlData[0])).EMAResult;
-#         //Calculate EMA
-#         let EMA =
-#           currentPrice * WeightedMultiplier +
-#           lastEMA * (1 - WeightedMultiplier);
+    # Get last macd price from database
+    sqlLastData = """Select macd""" + str(period) + """
+      as EMAResult from algo_forex where pair='""" + pair + """'
+      order by dateTime desc limit 1;"""
 
-#         let preFix = "EMA_" + period;
-#         let EMAReturn = { [preFix]: EMA };
+    # Return result as tuple, need to get first value as query returns 1 only
+    mycursor.execute(sqlLastData)
+    results = mycursor.fetchone()
+    lastEMA = results[0]
 
-#         resolve(EMAReturn);
-#       }
-#     });
-#   });
-# }
+    # Calculate EMA
+    EMA = currentPrice * WeightedMultiplier + \
+        lastEMA * (1 - WeightedMultiplier)
 
-# function EMA_MACD(period, currentPrice, pair, con) {
-#   return new Promise((resolve, reject) => {
-#     //First get Weighted multiplier
-#     let WeightedMultiplier = 2 / (period + 1);
-
-#     //Get last EMA price from DB
-#     var sqlLastData =
-#       "Select macd from algo_forex where pair='" +
-#       pair +
-#       "' order by dateTime desc limit 1;";
-
-#     //First retrieve last 26 data points from table
-#     con.query(sqlLastData, function(err, sqlData) {
-#       if (err) {
-#         console.log("SQL ERROR RETRIEVING LAST PRICES", err);
-#         reject(err);
-#       }
-#       if (sqlData) {
-#         //Calc EMA first
-#         let lastMACD = JSON.parse(JSON.stringify(sqlData[0])).macd;
-#         //Calculate EMA
-#         //((last_price-@previous_ema)*@ema_multiplier_12) + @previous_ema;
-#         //let EMA = (currentPrice - lastMACD) * WeightedMultiplier + lastMACD;
-#         let EMA =
-#           currentPrice * WeightedMultiplier +
-#           lastMACD * (1 - WeightedMultiplier);
-
-#         let preFix = "MACD_SIGNAL";
-#         let EMAReturn = { [preFix]: EMA };
-
-#         resolve(EMAReturn);
-#       }
-#     });
-#   });
-# }
-
-# module.exports.EMA = EMA;
-# module.exports.EMA_MACD = EMA_MACD;
+    # Return results
+    preFix = "MACD_SIGNAL"
+    EMAReturn = {preFix: EMA}
+    return(EMAReturn)
