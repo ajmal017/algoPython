@@ -2,7 +2,7 @@ import mysql.connector
 import json
 
 
-def dbConnect():
+def dbConnect(environment):
     # Read JSON data into the datastore variable
     with open('config.json') as json_file:
         data = json.load(json_file)
@@ -10,11 +10,11 @@ def dbConnect():
     # Connect to Database
     try:
         mydb = mysql.connector.connect(
-            host=data['staging']['dbName'],
-            user=data['staging']['userName'],
-            passwd=data['staging']['password'],
-            database=data['staging']['schema'],
-            port=data['staging']['port'],
+            host=data[environment]['dbName'],
+            user=data[environment]['userName'],
+            passwd=data[environment]['password'],
+            database=data[environment]['schema'],
+            port=data[environment]['port'],
         )
 
         return mydb
