@@ -1,14 +1,15 @@
 import boto3
 
 
-def getSQSMessages(queue_url):
+def createClient():
+    return boto3.client('sqs', region_name='us-east-2', aws_access_key_id="AKIARZLUVKQGALPFJIM4",
+                        aws_secret_access_key="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")
 
-    # Get the AWS service resource for SQS
-    sqs = boto3.client('sqs', region_name='us-east-2', aws_access_key_id="AKIARZLUVKQGALPFJIM4",
-                       aws_secret_access_key="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")
+
+def getSQSMessages(client, queue_url):
 
     # Receive message from SQS queue
-    response = sqs.receive_message(
+    response = client.receive_message(
         QueueUrl=queue_url,
         MaxNumberOfMessages=10,
         MessageAttributeNames=[
