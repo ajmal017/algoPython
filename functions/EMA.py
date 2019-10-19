@@ -14,6 +14,7 @@ def EMA(period, currentPrice, pair, con):
     mycursor.execute(sqlLastData)
     results = mycursor.fetchone()
     lastEMA = results[0]
+    mycursor.close()
 
     # Calculate EMA
     EMA = currentPrice * WeightedMultiplier + \
@@ -39,6 +40,7 @@ def EMA_MACD(period, currentPrice, pair, con):
     mycursor.execute(sqlLastData)
     results = mycursor.fetchone()
     lastEMA = results[0]
+    mycursor.close()
 
     # Calculate EMA
     EMA = currentPrice * WeightedMultiplier + \

@@ -12,6 +12,7 @@ def SMA(period, latestClose, pair, con):
     mycursor.execute(sqlSMA15)
     results = mycursor.fetchone()
     sumClose = results[0]
+    mycursor.close()
 
     # Calculate SMA
     SMARolling = (sumClose + latestClose) / period

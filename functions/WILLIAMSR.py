@@ -15,6 +15,7 @@ def WILLIAMSR(period, latestClose, pair, con):
     # Execute query
     mycursor.execute(sqlSMA15)
     results = mycursor.fetchall()
+    mycursor.close()
     L_PERIOD = results[0][0]
     H_PERIOD = results[0][1]
     # Calculate WilliamsR

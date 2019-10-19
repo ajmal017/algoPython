@@ -36,7 +36,7 @@ def RSI(period, latestClose, pair, con):
     results = mycursor.fetchall()
     gains = results[0][0]  # 1st column returns is Gains
     losses = results[0][1]  # 2nd column returns is Lossses
-
+    mycursor.close()
     # Need to get pervios close prices to determine if current price is a gain or a loss
     sql = "select closePrice from algo_forex where pair='" + pair + """'
       order by dateTime desc limit 1;"""
@@ -45,6 +45,7 @@ def RSI(period, latestClose, pair, con):
     mycursor.execute(sql)
     results = mycursor.fetchone()
     lastClosePrice = results[0]
+    mycursor.close()
 
     # Calculate RSI
     if latestClose > lastClosePrice:
