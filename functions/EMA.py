@@ -20,9 +20,7 @@ def EMA(period, currentPrice, pair, con):
         lastEMA * (1 - WeightedMultiplier)
 
     # Return results
-    preFix = "EMA_" + str(period)
-    EMAReturn = {preFix: EMA}
-    return(EMAReturn)
+    return(EMA)
 
 
 # This functions return the exponential moving average of the MACD
@@ -34,8 +32,7 @@ def EMA_MACD(period, currentPrice, pair, con):
     WeightedMultiplier = 2 / (period + 1)
 
     # Get last macd price from database
-    sqlLastData = """Select macd""" + str(period) + """
-      as EMAResult from algo_forex where pair='""" + pair + """'
+    sqlLastData = """Select macd from algo_forex where pair='""" + pair + """'
       order by dateTime desc limit 1;"""
 
     # Return result as tuple, need to get first value as query returns 1 only
@@ -48,6 +45,4 @@ def EMA_MACD(period, currentPrice, pair, con):
         lastEMA * (1 - WeightedMultiplier)
 
     # Return results
-    preFix = "MACD_SIGNAL"
-    EMAReturn = {preFix: EMA}
-    return(EMAReturn)
+    return(EMA)

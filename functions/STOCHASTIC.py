@@ -17,8 +17,9 @@ def STOCHASTIC(period, latestClose, pair, con):
     # Run query
     mycursor.execute(sqlSMA15)
     results = mycursor.fetchall()
-    H_PERIOD = results[0][0]
-    L_PERIOD = results[0][1]
+    mycursor.close()
+    L_PERIOD = results[0][0]
+    H_PERIOD = results[0][1]
 
     # Calculate stochastic K first
     stoch_k = ((latestClose - L_PERIOD) / (H_PERIOD - L_PERIOD)) * 100
@@ -28,13 +29,14 @@ def STOCHASTIC(period, latestClose, pair, con):
                 order by dateTime desc limit 2)a"""
 
     # Execute query
-    mycursor.execute(sqlSMA15)
+    mycursor = con.cursor()
+    mycursor.execute(sqlStoch)
     results = mycursor.fetchone()
+    mycursor.close()
     stochkSum = results[0]
 
     # Calculate stoch d
-    stoch_d = stochkSum + stoch_k
-    stoch_d = stoch_d / 3
+    stoch_d = (stochkSum + stoch_k) / 3
 
     # Create return values
     return ({"STOCH_K": stoch_k, "STOCH_D": stoch_d})

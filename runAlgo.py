@@ -5,6 +5,7 @@ import functions.SMA as SMA
 import functions.STOCHASTIC as STOCHASTIC
 import functions.WILLIAMSR as WILLIAMSR
 import aws.sqs as sqs
+import json
 
 
 def runAlgo():
@@ -29,17 +30,17 @@ def runAlgo():
             # Pull apart message from SQS
             messageID = x['MessageId']
             ReceiptHandle = x['ReceiptHandle']
-            body = x['Body']
-            print(body)
-            pair = body.pair
-            tickData = body.data
-            dateTime = tickData.dateTime
-            snapshotTimeUTC = tickData.snapshotTimeUTC
-            openPrice = tickData.openPrice
-            currentPrice = tickData.closePrice
-            highPrice = tickData.highPrice
-            lowPrice = tickData.lowPrice
-            lastTradedVolume = tickData.lastTradedVolume
+            json_acceptable_string = x['Body'].replace("'", "\"")
+            body = json.loads(json_acceptable_string)
+            pair = body['pair']
+            tickData = body['tickData']
+            dateTime = tickData['dateTime']
+            snapshotTimeUTC = tickData['snapshotTimeUTC']
+            openPrice = tickData['openPrice']
+            currentPrice = tickData['closePrice']
+            highPrice = tickData['highPrice']
+            lowPrice = tickData['lowPrice']
+            lastTradedVolume = tickData['lastTradedVolume']
 
             # Compute all technical indicators
             EMA_12 = EMA.EMA(12, currentPrice, pair, con)
@@ -52,27 +53,28 @@ def runAlgo():
             STOCH_K = stoch['STOCH_K']
             STOCH_D = stoch['STOCH_D']
             WILLIAMS_R = WILLIAMSR.WILLIAMSR(14, currentPrice, pair, con)
-            RSI = RSI.RSI(14, currentPrice, pair, con)
+            rsi = RSI.RSI(14, currentPrice, pair, con)
             MACD = EMA_12 - EMA_26
             MACD_SIGNAL = EMA.EMA_MACD(9, MACD, pair, con)
             MACD_HIST = MACD - MACD_SIGNAL
 
             # Insert indicator data into DB
-            sql = sql_insert + " VALUES ('" + dateTime + "','" + pair + "','" + snapshotTimeUTC + "'," + openPrice + "," + currentPrice + "," + highPrice + "," + lowPrice + "," + lastTradedVolume + "," + EMA_12 + \
-                "," + EMA_26 + "," + EMA_50 + "," + SMA_15 + "," + SMA_25 + "," + SMA_60 + "," + STOCH_K + "," + \
-                STOCH_D + "," + WILLIAMS_R + "," + RSI + "," + MACD + \
-                "," + MACD_SIGNAL + "," + MACD_HIST + ",NOW()); "
+            sql = sql_insert + " VALUES ('" + dateTime + "','" + pair + "','" + snapshotTimeUTC + "'," + str(openPrice) + "," + str(currentPrice) + "," + str(highPrice) + "," + str(lowPrice) + "," + str(lastTradedVolume) + "," + str(EMA_12) + \
+                "," + str(EMA_26) + "," + str(EMA_50) + "," + str(SMA_15) + "," + str(SMA_25) + "," + str(SMA_60) + "," + str(STOCH_K) + "," + \
+                str(STOCH_D) + "," + str(WILLIAMS_R) + "," + str(rsi) + "," + str(MACD) + \
+                "," + str(MACD_SIGNAL) + "," + str(MACD_HIST) + ",NOW()); "
 
             # Execute SQL insert, if fails means it violated a primary key
             try:
                 mycursor.execute(sql)
+                con.commit()
                 # Delete SQS message off Queue
                 response = client.delete_message(
                     QueueUrl=queueURL,
                     ReceiptHandle=ReceiptHandle
                 )
-                return ('Success')
             except:
+                print('Algo data already exists, shutting down app')
                 # Delete SQS message off Queue
                 response = client.delete_message(
                     QueueUrl=queueURL,

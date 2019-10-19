@@ -58,6 +58,4 @@ def RSI(period, latestClose, pair, con):
     RSI = RSI = 100 - 100 / (1 + RS)
 
     # Return results
-    preFix = "RSI"
-    RSI_return = {preFix: RSI}
-    return(RSI_return)
+    return(RSI)

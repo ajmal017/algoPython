@@ -1,5 +1,5 @@
 import functions.dbConnect as dbConnect
-# var { insertOrder } = require("./insertOrder.js");
+import insertOrder
 
 
 def generateOrders():
@@ -15,6 +15,7 @@ def generateOrders():
     # Execute query
     mycursor.execute(sql)
     results = mycursor.fetchall()
+    mycursor.close()
 
     # Order of columns is important and a bit flakey imo
     orderDateOriginal = results[0][0]  # dateTime
@@ -71,18 +72,18 @@ def generateOrders():
     if (stoch_d < 80 and closePrice > ema26 and stoch_d > stoch_d_prior and williamsR > williamsRPrior and smaEMADiff > smaEMADiffPrior):
         order['direction'] = 'Long'
         order['actionType'] = 'Open'
-        # insertOrder(con, order)
+        insertOrder.insertOrder(con, order)
     elif (stoch_d > 100 and stoch_d_prior > 90):
         order['direction'] = 'Long'
         order['actionType'] = 'Close'
-        # insertOrder(con, order)
+        insertOrder.insertOrder(con, order)
 
     # Set Short rules
     if (stoch_d < stoch_d_prior and stoch_d > 85 and stoch_k > 80 and rsi > 60 and williamsRDiff < 30):
         order['direction'] = 'Short'
         order['actionType'] = 'Open'
-        # insertOrder(con, order)
+        insertOrder.insertOrder(con, order)
     elif (stoch_d < 20 and stoch_d_prior < 20) or (stoch_d < 20 and williamsR < -105):
         order['direction'] = 'Short'
         order['actionType'] = 'Close'
-        # insertOrder(con, order)
+        insertOrder.insertOrder(con, order)

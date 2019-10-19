@@ -19,4 +19,4 @@ def WILLIAMSR(period, latestClose, pair, con):
     H_PERIOD = results[0][1]
     # Calculate WilliamsR
     wiliamsR = ((H_PERIOD - latestClose) / (H_PERIOD - L_PERIOD)) * 100 * -1
-    return({"WILLIAMSR": wiliamsR})
+    return(wiliamsR)

@@ -17,6 +17,4 @@ def SMA(period, latestClose, pair, con):
     SMARolling = (sumClose + latestClose) / period
 
     # Return results
-    preFix = "SMA_" + str(period)
-    SMA_return = {preFix: SMARolling}
-    return(SMA_return)
+    return(SMARolling)
