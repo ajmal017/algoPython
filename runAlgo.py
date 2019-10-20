@@ -66,6 +66,7 @@ def runAlgo():
 
             # Execute SQL insert, if fails means it violated a primary key
             try:
+                pass  # This is important, as it won't break the for loop
                 mycursor.execute(sql)
                 con.commit()
                 print('Inserted new Algo Data')
@@ -75,6 +76,7 @@ def runAlgo():
                     ReceiptHandle=ReceiptHandle
                 )
             except:
+                pass  # This is important, as it won't break the for loop
                 print('Algo data already exists, shutting down app')
                 # Delete SQS message off Queue
                 response = client.delete_message(
