@@ -33,7 +33,7 @@ def runAlgo():
             json_acceptable_string = x['Body'].replace("'", "\"")
             body = json.loads(json_acceptable_string)
             pair = body['pair']
-            tickData = body['tickData']
+            tickData = body['data']
             dateTime = tickData['dateTime']
             snapshotTimeUTC = tickData['snapshotTimeUTC']
             openPrice = tickData['openPrice']
