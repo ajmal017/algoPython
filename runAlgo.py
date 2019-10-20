@@ -30,8 +30,8 @@ def runAlgo():
             # Pull apart message from SQS
             messageID = x['MessageId']
             ReceiptHandle = x['ReceiptHandle']
-            json_acceptable_string = x['Body'].replace("'", "\"")
-            body = json.loads(json_acceptable_string)
+            # json_acceptable_string = x['Body'].replace("'", "\"")
+            body = json.loads(x['Body'])
             pair = body['pair']
             tickData = body['data']
             dateTime = tickData['dateTime']
