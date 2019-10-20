@@ -2,10 +2,12 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 10
+      python: 3.7
   build:
     commands:
-      - npm install mysql aws-sdk csv-parse fs async
+      - pip3 install mysql-connector-python --user
+      - pip3 install mysql-connector
+      - pip3 install boto3
       - export BUCKET=algobuilds
       - aws cloudformation package --template-file template.yaml --s3-bucket $BUCKET --output-template-file outputtemplate.yaml
 artifacts:
