@@ -85,6 +85,3 @@ def runAlgo():
     # If there are no messages simply exit out of function
     print('No Messages in queue to process')
     return('No Messages in queue to process')
-
-
-runAlgo()
