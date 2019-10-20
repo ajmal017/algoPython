@@ -5,10 +5,10 @@ phases:
       python: 3.7
   build:
     commands:
-      - pip3 install mysql-connector-python --user
-      - pip3 install mysql-connector
-      - pip3 install mysql
-      - pip3 install boto3
+      - pip3 install mysql-connector-python -t ./
+      - pip3 install mysql-connector -t ./
+      - pip3 install mysql -t ./
+      - pip3 install boto3 -t ./
       - export BUCKET=algobuilds
       - aws cloudformation package --template-file template.yaml --s3-bucket $BUCKET --output-template-file outputtemplate.yaml
 artifacts:
