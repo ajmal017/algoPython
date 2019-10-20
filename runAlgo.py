@@ -81,7 +81,7 @@ def runAlgo():
                     QueueUrl=queueURL,
                     ReceiptHandle=ReceiptHandle
                 )
-                return('Algo data already exists, shutting down app')
+
     # If there are no messages simply exit out of function
     print('No Messages in queue to process')
     return('No Messages in queue to process')
