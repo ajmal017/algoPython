@@ -42,6 +42,7 @@ def RSI(period, latestClose, pair, con):
       order by dateTime desc limit 1;"""
 
     # Get Latest close
+    mycursor = con.cursor()
     mycursor.execute(sql)
     results = mycursor.fetchone()
     lastClosePrice = results[0]
