@@ -68,6 +68,7 @@ def runAlgo():
             try:
                 mycursor.execute(sql)
                 con.commit()
+                print('Inserted new Algo Data')
                 # Delete SQS message off Queue
                 response = client.delete_message(
                     QueueUrl=queueURL,
@@ -82,6 +83,7 @@ def runAlgo():
                 )
                 return('Algo data already exists, shutting down app')
     # If there are no messages simply exit out of function
+    print('No Messages in queue to process')
     return('No Messages in queue to process')
 
 

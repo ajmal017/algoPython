@@ -33,6 +33,7 @@ def insertOrderDB(con, order):
     try:
         mycursor.execute(sql)
         con.commit()
+        print('New order added to DB')
         return True
     except Exception as err:
         print(err)
