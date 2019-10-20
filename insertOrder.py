@@ -2,14 +2,14 @@ import aws.sqs as sqs
 
 
 def insertOrder(con, order):
-    # Create AWS client first
-    client = sqs.createClient()
 
     # Start by inserting order to DB
     result = insertOrderDB(con, order)
 
     # If order didn't already exist ..
     if result:
+        # Create AWS client first
+        client = sqs.createClient()
         # Printing here so we have visibility
         print(order)
         # Add order to next queue
