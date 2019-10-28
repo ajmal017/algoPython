@@ -6,6 +6,7 @@ import functions.STOCHASTIC as STOCHASTIC
 import functions.WILLIAMSR as WILLIAMSR
 import aws.sqs as sqs
 import json
+import generateOrders
 
 
 def runAlgo():
@@ -75,6 +76,8 @@ def runAlgo():
                     QueueUrl=queueURL,
                     ReceiptHandle=ReceiptHandle
                 )
+                # Then here we want to run generate orders
+                generateOrders.generateOrders(pair)
             except:
                 pass  # This is important, as it won't break the for loop
                 print('Algo data already exists, shutting down app')
