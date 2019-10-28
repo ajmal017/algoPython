@@ -70,7 +70,7 @@ def generateOrders(pair):
         }
 
         # Set Long rules
-        if (stoch_d < 80 and closePrice > ema26 and stoch_d > stoch_d_prior and williamsR > williamsRPrior and smaEMADiff > smaEMADiffPrior):
+        if (macd > 0 and stoch_d < 80 and closePrice > ema26 and stoch_d > stoch_d_prior and williamsR > williamsRPrior and smaEMADiff > smaEMADiffPrior):
             order['direction'] = 'Long'
             order['actionType'] = 'Open'
             insertOrder.insertOrder(con, order)
