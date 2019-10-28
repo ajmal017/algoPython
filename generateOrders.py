@@ -98,5 +98,5 @@ def is_active(con, pair):
     # Execute query
     mycursor.execute(sql)
     results = mycursor.fetchone()
-    return(results[0])
     mycursor.close()
+    return(results[0])
