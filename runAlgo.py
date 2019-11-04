@@ -78,7 +78,6 @@ def runAlgo():
                 )
                 # Then here we want to run generate orders
                 generateOrders.generateOrders(pair)
-                mycursor.close()
             except Exception:
                 pass  # This is important, as it won't break the for loop
                 print('Algo data already exists, shutting down app')
@@ -87,6 +86,8 @@ def runAlgo():
                     QueueUrl=queueURL,
                     ReceiptHandle=ReceiptHandle
                 )
+            # Close cursor within each loop run
+            mycursor.close()
 
     # If there are no messages simply exit out of function
     else:
