@@ -19,7 +19,6 @@ def runAlgo():
     if results:
         # Create mySql connection
         con = dbConnect.dbConnect('staging')
-        mycursor = con.cursor()
         sql_insert = "INSERT INTO algo_forex (dateTime,pair,snapshotTimeUTC,openPrice,closePrice,highPrice,lowPrice,lastTradedVolume,EMA_12,EMA_26,EMA_50,SMA_15,SMA_25,SMA_60,stoch_k,stoch_d,williamsR,RSI,macd,macd_signal,macd_hist,insertDate)"
         returnArray = []
         messageID = ""
@@ -60,6 +59,7 @@ def runAlgo():
             MACD_HIST = MACD - MACD_SIGNAL
 
             # Insert indicator data into DB
+            mycursor = con.cursor()
             sql = sql_insert + " VALUES ('" + dateTime + "','" + pair + "','" + snapshotTimeUTC + "'," + str(openPrice) + "," + str(currentPrice) + "," + str(highPrice) + "," + str(lowPrice) + "," + str(lastTradedVolume) + "," + str(EMA_12) + \
                 "," + str(EMA_26) + "," + str(EMA_50) + "," + str(SMA_15) + "," + str(SMA_25) + "," + str(SMA_60) + "," + str(STOCH_K) + "," + \
                 str(STOCH_D) + "," + str(WILLIAMS_R) + "," + str(rsi) + "," + str(MACD) + \
@@ -78,7 +78,8 @@ def runAlgo():
                 )
                 # Then here we want to run generate orders
                 generateOrders.generateOrders(pair)
-            except:
+                mycursor.close()
+            except Exception:
                 pass  # This is important, as it won't break the for loop
                 print('Algo data already exists, shutting down app')
                 # Delete SQS message off Queue
