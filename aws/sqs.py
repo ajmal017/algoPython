@@ -21,7 +21,7 @@ def getSQSMessages(client, queue_url):
     # SQS will return a object of type messages if there is anything on the queue
     try:
         results = response['Messages']
-    except:
+    except Exception:
         results = 0
 
     return results
