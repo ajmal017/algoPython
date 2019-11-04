@@ -27,7 +27,6 @@ def runAlgo():
         tickData = {}
         # Loop through messages
         for x in results:
-            print(x)
             # Pull apart message from SQS
             messageID = x['MessageId']
             ReceiptHandle = x['ReceiptHandle']

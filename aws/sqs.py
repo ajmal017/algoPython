@@ -14,12 +14,11 @@ def getSQSMessages(client, queue_url):
         QueueUrl=queue_url,
         MaxNumberOfMessages=10,
         WaitTimeSeconds=1,
-        VisibilityTimeout=1
+        VisibilityTimeout=2
     )
 
     # SQS will return a object of type messages if there is anything on the queue
     try:
-        print(response)
         results = response['Messages']
     except Exception:
         results = 0
