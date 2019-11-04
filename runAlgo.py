@@ -25,7 +25,6 @@ def runAlgo():
         body = {}
         pair = ""
         tickData = {}
-        print(results)
         # Loop through messages
         for x in results:
             print(x)
