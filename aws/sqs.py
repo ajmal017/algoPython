@@ -13,9 +13,8 @@ def getSQSMessages(client, queue_url):
     response = client.receive_message(
         QueueUrl=queue_url,
         MaxNumberOfMessages=10,
-        MessageAttributeNames=[
-            'All'
-        ]
+        WaitTimeSeconds=5,
+        VisibilityTimeout=5
     )
 
     # SQS will return a object of type messages if there is anything on the queue
