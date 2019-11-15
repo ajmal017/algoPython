@@ -74,13 +74,13 @@ def generateOrders(pair):
             order['direction'] = 'Long'
             order['actionType'] = 'Open'
             insertOrder.insertOrder(con, order)
-        elif (stoch_d > 100 and stoch_d_prior > 90):
+        elif (stoch_d > 100 and stoch_d_prior > 90) or (stoch_k < -100):
             order['direction'] = 'Long'
             order['actionType'] = 'Close'
             insertOrder.insertOrder(con, order)
 
         # Set Short rules
-        if (stoch_d < stoch_d_prior and stoch_d > 85 and stoch_k > 80 and rsi > 60 and williamsRDiff < 30):
+        if (stoch_d < stoch_d_prior and stoch_d > 85 and stoch_k > 90 and rsi > 60 and williamsRDiff < 30):
             order['direction'] = 'Short'
             order['actionType'] = 'Open'
             insertOrder.insertOrder(con, order)
