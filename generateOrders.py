@@ -52,6 +52,7 @@ def generateOrders(pair):
         rsiPrior = results[1][17]
         stochDPrior3 = results[2][15]
         sma15Prior = results[1][11]
+        macdPrior = results[1][18]
 
         # Calculate some parameters
         smaEMADiff = sma15 - ema26
@@ -80,7 +81,7 @@ def generateOrders(pair):
             insertOrder.insertOrder(con, order)
 
         # Set Short rules
-        if (stoch_d < stoch_d_prior and stoch_d > 85 and stoch_k > 90 and rsi > 60 and williamsRDiff < 30):
+        if (macd < macdPrior and stoch_d < stoch_d_prior and stoch_d > 70 and rsi > 60 and williamsRDiff < 30):
             order['direction'] = 'Short'
             order['actionType'] = 'Open'
             insertOrder.insertOrder(con, order)
