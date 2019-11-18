@@ -53,6 +53,7 @@ def generateOrders(pair):
         stochDPrior3 = results[2][15]
         sma15Prior = results[1][11]
         macdPrior = results[1][18]
+        macdHistPrior = results[1][20]  # macd_hist
 
         # Calculate some parameters
         smaEMADiff = sma15 - ema26
@@ -71,7 +72,7 @@ def generateOrders(pair):
         }
 
         # Set Long rules
-        if (macd > 0 and stoch_d < 80 and closePrice > ema26 and stoch_d > stoch_d_prior and williamsR > williamsRPrior and smaEMADiff > smaEMADiffPrior):
+        if (macdHist > macdHistPrior and macd > 0 and stoch_d < 80 and closePrice > ema26 and stoch_d > stoch_d_prior and williamsR > williamsRPrior and smaEMADiff > smaEMADiffPrior):
             order['direction'] = 'Long'
             order['actionType'] = 'Open'
             insertOrder.insertOrder(con, order)
