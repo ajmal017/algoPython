@@ -73,7 +73,7 @@ def generateOrders(pair):
         }
 
         # Set Long rules
-        if (abs(macdHist) > 0.000002 and rsi < 70 and macdHist > macdHistPrior and macd > 0 and stoch_d < 80 and closePrice > ema26 and stoch_d > stoch_d_prior and williamsR > williamsRPrior and smaEMADiff > smaEMADiffPrior and williamsRDiff < 40):
+        if (abs(macdHist) > 0.000002 and stoch_k < 91 and rsi < 70 and macdHist > macdHistPrior and macd > 0 and stoch_d < 80 and closePrice > ema26 and stoch_d > stoch_d_prior and williamsR > williamsRPrior and smaEMADiff > smaEMADiffPrior and williamsRDiff < 40):
             order['direction'] = 'Long'
             order['actionType'] = 'Open'
             insertOrder.insertOrder(con, order)
@@ -83,7 +83,7 @@ def generateOrders(pair):
             insertOrder.insertOrder(con, order)
 
         # Set Short rules
-        if (macd < macdPrior and stoch_d < stoch_d_prior and stoch_k > 62 and stoch_d > 70 and rsi > 60 and williamsRDiff < 30):
+        if (sma15 > SMA_25 and macd < macdPrior and stoch_d < stoch_d_prior and stoch_k > 62 and stoch_d > 70 and rsi > 60 and williamsRDiff < 30):
             order['direction'] = 'Short'
             order['actionType'] = 'Open'
             insertOrder.insertOrder(con, order)
