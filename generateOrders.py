@@ -83,7 +83,7 @@ def generateOrders(pair):
             insertOrder.insertOrder(con, order)
 
         # Set Short rules
-        if (sma15 > SMA_25 and macd < macdPrior and stoch_d < stoch_d_prior and stoch_k > 62 and stoch_d > 70 and rsi > 60 and williamsRDiff < 30):
+        if (abs(macdHist) > 0.000002 and sma15 > SMA_25 and macd < macdPrior and stoch_d < stoch_d_prior and stoch_k > 62 and stoch_d > 70 and rsi > 60 and williamsRDiff < 40):
             order['direction'] = 'Short'
             order['actionType'] = 'Open'
             insertOrder.insertOrder(con, order)
