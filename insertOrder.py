@@ -13,10 +13,10 @@ def insertOrder(con, order):
         # Printing here so we have visibility
         print(order)
         # Add order to next queue
-        # 12-Dec-19 RC Disabled as run out of funding
-        # sqs.sendMessage(client, order)
+        # 03-Jan-10 RC Renabling
+        sqs.sendMessage(client, order)
         # Trigger Lamnda by sending an sns
-        # sqs.sendSNS()
+        sqs.sendSNS()
         return True
     return False
 
