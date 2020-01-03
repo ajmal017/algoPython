@@ -48,20 +48,14 @@ def generateOrders(pair):
         ema26Prior = results[1][9]
         stoch_d_prior = results[1][15]
         williamsRPrior = results[1][16]
-        closePricePrior = results[1][4]
-        rsiPrior = results[1][17]
-        stochDPrior3 = results[2][15]
         sma15Prior = results[1][11]
-        macdPrior = results[1][18]
-        macdPrior2 = results[2][18]
-        macdHistPrior = results[1][20]  # macd_hist
+        macd_signal_prior = results[1][19]
+        macdHistPrior = results[1][20]
 
         # Calculate some parameters
         smaEMADiff = sma15 - ema26
         smaEMADiffPrior = sma15Prior - ema26Prior
         williamsRDiff = abs(williamsR - williamsRPrior)
-        emaCurrentDiff = abs(closePrice - ema26)
-        emaPriorDiff = abs(closePricePrior - ema26Prior)
 
         # Prepare order Object
         order = {
@@ -77,13 +71,13 @@ def generateOrders(pair):
             order['direction'] = 'Long'
             order['actionType'] = 'Open'
             insertOrder.insertOrder(con, order)
-        elif (stoch_d > 100 and stoch_d_prior > 90) or (stoch_k < -100):
+        elif (stoch_d > 100 and stoch_d_prior > 90) or (stoch_k < -100) or (stoch_k > 105 and stoch_d > 90):
             order['direction'] = 'Long'
             order['actionType'] = 'Close'
             insertOrder.insertOrder(con, order)
 
         # Set Short rules
-        if (abs(macdHist) > 0.000002 and sma15 > SMA_25 and macd < macdPrior and stoch_d < stoch_d_prior and stoch_k > 62 and stoch_d > 70 and rsi > 60 and williamsRDiff < 40):
+        if (ema26 < EMA_50 and macd_signal < macd_signal_prior and stoch_d < stoch_d_prior and stoch_k > 35 and stoch_d > 40 and williamsRDiff < 35):
             order['direction'] = 'Short'
             order['actionType'] = 'Open'
             insertOrder.insertOrder(con, order)
